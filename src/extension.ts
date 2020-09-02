@@ -21,7 +21,7 @@ function ChangeColor(NewColor: string) {
 
 function createStatusBarItem() {
   const statusBarItem = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Left
+    vscode.StatusBarAlignment.Right
   );
   statusBarItem.text = "Which?";
   statusBarItem.tooltip = "Which?";
