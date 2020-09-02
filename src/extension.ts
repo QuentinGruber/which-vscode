@@ -9,12 +9,12 @@ interface CC {
   "titleBar.activeForeground": string;
 }
 
-function ChangeColor(NewColor: string) {
+function changeColor(newColor: string) {
   vscode.workspace
     .getConfiguration("workbench")
     .update(
       "colorCustomizations",
-      { ["titleBar.activeBackground"]: NewColor },
+      { ["titleBar.activeBackground"]: newColor },
       false
     );
 }
@@ -30,8 +30,8 @@ function createStatusBarItem() {
   return statusBarItem;
 }
 
-function ToogleAction(statusBarItem: any) {
-  if (statusBarItem.command == "which-vscode.which?") {
+function toogleAction(statusBarItem: any) {
+  if (statusBarItem.command === "which-vscode.which?") {
     statusBarItem.text = "Stop?";
     statusBarItem.command = "which-vscode.stopWhich?";
   } else {
@@ -44,29 +44,29 @@ export function activate(context: vscode.ExtensionContext) {
   const statusBarItem = createStatusBarItem();
 
   context.subscriptions.push(statusBarItem);
-  let CC_save: CC;
-  CC_save = JSON.parse(
+  let CC_SAVE: CC;
+  CC_SAVE = JSON.parse(
     JSON.stringify(
       vscode.workspace.getConfiguration("workbench").get("colorCustomizations")
     )
   );
 
-  if (context.workspaceState.get("CC_save")) {
-    CC_save = context.workspaceState.get("CC_save") as CC;
+  if (context.workspaceState.get("CC_SAVE")) {
+    CC_SAVE = context.workspaceState.get("CC_SAVE") as CC;
   }
   let disposables = [];
-  context.workspaceState.update("CC_save", CC_save);
+  context.workspaceState.update("CC_SAVE", CC_SAVE);
   disposables.push(
     vscode.commands.registerCommand("which-vscode.which?", () => {
-      ChangeColor(randomColor());
-      ToogleAction(statusBarItem);
+      changeColor(randomColor());
+      toogleAction(statusBarItem);
     })
   );
 
   disposables.push(
     vscode.commands.registerCommand("which-vscode.stopWhich?", () => {
-      ChangeColor(CC_save["titleBar.activeBackground"] as string);
-      ToogleAction(statusBarItem);
+      changeColor(CC_SAVE["titleBar.activeBackground"] as string);
+      toogleAction(statusBarItem);
     })
   );
 
