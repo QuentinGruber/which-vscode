@@ -19,7 +19,31 @@ function ChangeColor(NewColor: string) {
     );
 }
 
+function createStatusBarItem() {
+  const statusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Left
+  );
+  statusBarItem.text = "Which?";
+  statusBarItem.tooltip = "Which?";
+  statusBarItem.command = "which-vscode.which?";
+  statusBarItem.show();
+  return statusBarItem;
+}
+
+function ToogleAction(statusBarItem: any) {
+  if (statusBarItem.command == "which-vscode.which?") {
+    statusBarItem.text = "Stop?";
+    statusBarItem.command = "which-vscode.stopWhich?";
+  } else {
+    statusBarItem.text = "Which?";
+    statusBarItem.command = "which-vscode.which?";
+  }
+}
+
 export function activate(context: vscode.ExtensionContext) {
+  const statusBarItem = createStatusBarItem();
+
+  context.subscriptions.push(statusBarItem);
   let CC_save: CC;
   CC_save = JSON.parse(
     JSON.stringify(
@@ -30,22 +54,19 @@ export function activate(context: vscode.ExtensionContext) {
   if (context.workspaceState.get("CC_save")) {
     CC_save = context.workspaceState.get("CC_save") as CC;
   }
-  console.log(vscode.TreeItem);
   let disposables = [];
   context.workspaceState.update("CC_save", CC_save);
   disposables.push(
     vscode.commands.registerCommand("which-vscode.which?", () => {
       ChangeColor(randomColor());
-
-      vscode.window.showInformationMessage("Hello from which-vscode!");
+      ToogleAction(statusBarItem);
     })
   );
 
   disposables.push(
     vscode.commands.registerCommand("which-vscode.stopWhich?", () => {
       ChangeColor(CC_save["titleBar.activeBackground"] as string);
-
-      vscode.window.showInformationMessage("Thank you for using which-vscode!");
+      ToogleAction(statusBarItem);
     })
   );
 
