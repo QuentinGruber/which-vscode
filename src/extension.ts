@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+const randomColor = require("randomcolor"); // import the script
 
 interface CC {
   "activityBar.background": string;
@@ -19,17 +20,22 @@ function ChangeColor(NewColor: string) {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  const CC_save: CC = JSON.parse(
+  let CC_save: CC;
+  CC_save = JSON.parse(
     JSON.stringify(
       vscode.workspace.getConfiguration("workbench").get("colorCustomizations")
     )
   );
 
+  if (context.workspaceState.get("CC_save")) {
+    CC_save = context.workspaceState.get("CC_save") as CC;
+  }
+  console.log(vscode.TreeItem);
   let disposables = [];
-
+  context.workspaceState.update("CC_save", CC_save);
   disposables.push(
     vscode.commands.registerCommand("which-vscode.which?", () => {
-      ChangeColor("#ff0000");
+      ChangeColor(randomColor());
 
       vscode.window.showInformationMessage("Hello from which-vscode!");
     })
@@ -37,8 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   disposables.push(
     vscode.commands.registerCommand("which-vscode.stopWhich?", () => {
-      console.log(CC_save);
-      ChangeColor(CC_save["titleBar.activeBackground"]);
+      ChangeColor(CC_save["titleBar.activeBackground"] as string);
 
       vscode.window.showInformationMessage("Thank you for using which-vscode!");
     })

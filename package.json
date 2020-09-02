@@ -45,5 +45,9 @@
     "mocha": "^8.0.1",
     "typescript": "^3.8.3",
     "vscode-test": "^1.4.0"
+  },
+  "dependencies": {
+    "@types/randomcolor": "^0.5.5",
+    "randomcolor": "^0.6.2"
   }
 }
