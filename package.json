@@ -10,14 +10,18 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:which-vscode.helloWorld"
+    "*"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "which-vscode.helloWorld",
-        "title": "Hello World"
+        "command": "which-vscode.which?",
+        "title": "Which?"
+      },
+      {
+        "command": "which-vscode.stopWhich?",
+        "title": "Stop which?"
       }
     ]
   },

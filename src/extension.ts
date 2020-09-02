@@ -1,26 +1,52 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+interface CC {
+  "activityBar.background": string;
+  "titleBar.activeBackground": string;
+  "titleBar.activeForeground": string;
+}
+
+function ChangeColor(NewColor: string) {
+  vscode.workspace
+    .getConfiguration("workbench")
+    .update(
+      "colorCustomizations",
+      { ["titleBar.activeBackground"]: NewColor },
+      false
+    );
+}
+
 export function activate(context: vscode.ExtensionContext) {
+  const CC_save: CC = JSON.parse(
+    JSON.stringify(
+      vscode.workspace.getConfiguration("workbench").get("colorCustomizations")
+    )
+  );
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "which-vscode" is now active!');
+  let disposables = [];
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('which-vscode.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+  disposables.push(
+    vscode.commands.registerCommand("which-vscode.which?", () => {
+      ChangeColor("#ff0000");
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from which-vscode!');
-	});
+      vscode.window.showInformationMessage("Hello from which-vscode!");
+    })
+  );
 
-	context.subscriptions.push(disposable);
+  disposables.push(
+    vscode.commands.registerCommand("which-vscode.stopWhich?", () => {
+      console.log(CC_save);
+      ChangeColor(CC_save["titleBar.activeBackground"]);
+
+      vscode.window.showInformationMessage("Thank you for using which-vscode!");
+    })
+  );
+
+  disposables.forEach((element) => {
+    context.subscriptions.push(element);
+  });
 }
 
 // this method is called when your extension is deactivated
