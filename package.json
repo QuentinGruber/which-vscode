@@ -2,7 +2,7 @@
   "name": "which-vscode",
   "displayName": "which-vscode",
   "description": "extention to help identify an instance of vscode from each other",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.48.0"
   },
@@ -49,5 +49,15 @@
   "dependencies": {
     "@types/randomcolor": "^0.5.5",
     "randomcolor": "^0.6.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuentinGruber/which-vscode.git"
+  },
+  "author": "Gruber Quentin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/QuentinGruber/which-vscode/issues"
+  },
+  "homepage": "https://github.com/QuentinGruber/which-vscode#readme"
 }
