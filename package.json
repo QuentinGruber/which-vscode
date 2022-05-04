@@ -4,7 +4,7 @@
   "description": "extention to help identify an instance of vscode from each other",
   "version": "1.0.1",
   "engines": {
-    "vscode": "^1.48.0"
+    "vscode": "^1.57.0"
   },
   "categories": [
     "Other"
