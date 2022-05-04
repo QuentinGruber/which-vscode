@@ -1,5 +1,6 @@
 {
   "name": "which-vscode",
+  "publisher": "QuentinGruber",
   "displayName": "which-vscode",
   "description": "extention to help identify an instance of vscode from each other",
   "version": "1.0.1",
