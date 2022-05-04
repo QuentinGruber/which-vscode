@@ -3,13 +3,7 @@
 import * as vscode from "vscode";
 const randomColor = require("randomcolor"); // import the script
 
-interface CC {
-  "activityBar.background": string;
-  "titleBar.activeBackground": string;
-  "titleBar.activeForeground": string;
-}
-
-function changeColor(newColor: string) {
+function changeColor(newColor: string | null) {
   vscode.workspace
     .getConfiguration("workbench")
     .update(
@@ -44,35 +38,19 @@ export function activate(context: vscode.ExtensionContext) {
   const statusBarItem = createStatusBarItem();
 
   context.subscriptions.push(statusBarItem);
-  let CC_SAVE: CC;
-  CC_SAVE = JSON.parse(
-    JSON.stringify(
-      vscode.workspace.getConfiguration("workbench").get("colorCustomizations")
-    )
-  );
-
-  if (context.workspaceState.get("CC_SAVE")) {
-    CC_SAVE = context.workspaceState.get("CC_SAVE") as CC;
-  }
-  let disposables = [];
-  context.workspaceState.update("CC_SAVE", CC_SAVE);
-  disposables.push(
+  context.subscriptions.push(
     vscode.commands.registerCommand("which-vscode.which?", () => {
       changeColor(randomColor());
       toogleAction(statusBarItem);
     })
   );
 
-  disposables.push(
+  context.subscriptions.push(
     vscode.commands.registerCommand("which-vscode.stopWhich?", () => {
-      changeColor(CC_SAVE["titleBar.activeBackground"] as string);
+      changeColor(null);
       toogleAction(statusBarItem);
     })
   );
-
-  disposables.forEach((element) => {
-    context.subscriptions.push(element);
-  });
 }
 
 // this method is called when your extension is deactivated
